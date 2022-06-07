@@ -3,10 +3,21 @@ pipeline {
     label 'Linux'
   }
   stages {
-    stage ('Script') {
+    stage ('Build') {
       steps {
-        sh 'chmod +x test_mb_jenkins.sh'
-        sh './test_mb_jenkins.sh'
+        sh 'echo "Build part"'
+        sh 'make'
+      }
+    stage ('Test') {
+      steps {
+        sh 'echo "Test part"'
+        sh 'make check'
+        junit 'reports/**/*.xml'
+      }
+    stage ('Deploy') {
+      steps {
+        sh 'echo "Deploy part"'
+        sh 'make publish'
       }
     }
   }
