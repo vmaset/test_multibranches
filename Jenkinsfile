@@ -6,18 +6,22 @@ pipeline {
     stage ('Build') {
       steps {
         sh 'echo "Build part"'
-        sh 'make'
+        sh 'cd /home/jenkins/test_maven'
+        sh 'mvn validate'
+        sh 'mvn compile'
+        sh 'mvn package'
       }
     stage ('Test') {
       steps {
         sh 'echo "Test part"'
-        sh 'make check'
+        sh 'cd /home/jenkins/test_maven'
+        sh 'mvn test'
         junit 'reports/**/*.xml'
       }
     stage ('Deploy') {
       steps {
         sh 'echo "Deploy part"'
-        sh 'make publish'
+
       }
     }
   }
